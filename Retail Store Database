@@ -1,0 +1,16 @@
+--Create a grocery store database
+
+CREATE TABLE clothes (id INTEGER PRIMARY KEY, name TEXT, inventory INTEGER, sold INTEGER, price INTEGER);
+INSERT INTO clothes VALUES (1, "shirts", 23, 16, 12.99);
+INSERT INTO clothes VALUES (2, "pants", 27, 13, 29.99);
+INSERT INTO clothes VALUES (3, "socks", 16, 9, 6.99);
+INSERT INTO clothes VALUES (4, "underwear", 17, 3, 3.99);
+INSERT INTO clothes VALUES (5, "hats", 6, 4, 9.99);
+INSERT INTO clothes VALUES (6, "sun_glasses", 7, 3, 9.99);
+
+--display the database ordered by price. 
+SELECT * FROM clothes 
+  ORDER BY price;
+
+--total items sold
+SELECT SUM(sold) FROM clothes;
