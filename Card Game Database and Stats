@@ -134,3 +134,20 @@ SELECT player_name, score,
         FROM card_games
         GROUP BY player_name
         ORDER BY score DESC;
+
+   
+--Rummy scores greater than or equal to 500
+SELECT score 
+    AS "Rummy Score", player_name AS "Player"
+    FROM card_games
+    WHERE game_name ="Rummy" AND score >=500
+    ORDER BY score DESC;
+    
+    
+--Top 3 rummy scores
+SELECT score 
+    AS "Rummy Score", player_name AS "Top Players"
+    FROM card_games
+    WHERE game_name ="Rummy"
+    ORDER BY score DESC
+    LIMIT 3;
