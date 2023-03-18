@@ -1,0 +1,120 @@
+#In this SQL, I'm querying a database with multiple tables in it to quantify statistics about artists and their background data. 
+
+
+CREATE TABLE artist 
+    (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    name TEXT, 
+    genre TEXT, 
+    top_hit TEXT, 
+    hit_year INTEGER);
+
+INSERT INTO artist (name, genre, top_hit, hit_year) 
+    VALUES ("morgan wallen", "country", "whiskey glasses", 2019);
+INSERT INTO artist (name, genre, top_hit, hit_year) 
+    VALUES ("carrie underwood", "country", "before he cheats", 2005); 
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("jason aldean", "country", "big green tractor", 2009);
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("miley cyrus", "pop", "party in the usa", 2009);
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("taylor swift", "pop", "shake it off", 2014);
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("justin bieber", "pop", "despacito", 2017);
+INSERT INTO artist (name, genre, top_hit, hit_year) 
+    VALUES ("ariana grande", "pop", "problem", 2014);
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("mgk", "alternative", "bad things", 2016);
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("ed sheeran", "pop", "perfect", 2017);
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("billie eilish", "alternative", "bad guy", 2019);
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("luke combs", "country", "forever after all", 2021);
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("cody johnson", "country", "on my way to you", 2018);
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("miranda lambert", "country", "the house that built me", 2010); 
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("lainey wilson", "country", "dirty looks", 2019);
+INSERT INTO artist (name, genre, top_hit, hit_year)
+    VALUES ("lady gaga", "pop", "bad romance", 2009);
+    
+    
+CREATE TABLE background 
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,     name TEXT, 
+    birth_year INTEGER, 
+    spouse TEXT, 
+    kids INTEGER);
+
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("morgan wallen", 1993, "no spouse", 0);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("carrie underwood", 1983, "mike fisher", 2); 
+INSERT INTO background (name, birth_year, spouse, kids)  
+    VALUES ("jason aldean", 1977, "brittany kerr aldean", 4);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("miley cyrus", 1992, "liam hemsworth", 0);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("taylor swift", 1989, "no spouse", 0);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("justin bieber", 1994, "hailey bieber", 0);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("ariana grande", 1993, "dalton gomez", 0);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("mgk", 1990, "no spouse", 1);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("ed sheeran", 1991, "cherry seaborn", 2);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("billie eilish", 2001, "no spouse", 0);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("luke combs", 1990, "nicole hocking", 1);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("cody johnson", 1987, "brandi johnson", 2);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("miranda lambert", 1983, "brendan mcloughlin", 0); 
+INSERT INTO background (name, birth_year, spouse, kids)  
+    VALUES ("lainey wilson", 1992, "no spouse", 0);
+INSERT INTO background (name, birth_year, spouse, kids) 
+    VALUES ("lady gaga", 1986, "no spouse", 0);
+
+
+
+-- Age at which artists had their greatest hit of all time
+
+SELECT artist.name, artist.hit_year, background.birth_year, (artist.hit_year - background.birth_year) AS "age"
+    FROM artist
+    JOIN background
+    ON artist.name = background.name
+    GROUP BY artist.name
+    ORDER BY age;
+
+
+-- Which country artists are married?
+
+SELECT artist.name, artist.genre, background.spouse
+    FROM artist
+    JOIN background
+    ON artist.name = background.name
+    WHERE artist.genre = "country"
+    AND background.spouse != "no spouse"
+    GROUP BY artist.name;
+
+
+-- Total artists are married in each genre?
+
+SELECT COUNT (artist.name) AS "married", artist.genre
+    FROM artist
+    JOIN background
+    ON artist.name = background.name
+    WHERE background.spouse != "no spouse"
+    GROUP BY artist.genre;
+
+
+-- Total artists not married in each genre?
+
+SELECT COUNT (artist.name) AS "not married", artist.genre
+    FROM artist
+    JOIN background
+    ON artist.name = background.name
+    WHERE background.spouse = "no spouse"
+    GROUP BY artist.genre;
